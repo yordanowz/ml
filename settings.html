@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SETTINGS | ARCADE HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --blue: #11cee7;
+            --pink: #ff0055;
+            --bg: #05050a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background: var(--bg);
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* CUSTOM TOAST NOTIFICATION */
+        #custom-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(150px);
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--blue);
+            border-radius: 12px;
+            padding: 15px 30px;
+            color: white;
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            z-index: 9999;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+            white-space: nowrap;
+        }
+        #custom-toast.show { transform: translateX(-50%) translateY(0); }
+        #custom-toast i { color: var(--blue); font-size: 1rem; }
+
+        /* HEADER */
+        .settings-header {
+            width: 100%;
+            padding: 25px;
+            background: #000;
+            border-bottom: 2px solid var(--blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron';
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover { text-shadow: 0 0 10px var(--blue); transform: translateX(-3px); }
+
+        /* CONTAINER */
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 40px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+        .card:hover { border-color: rgba(255, 255, 255, 0.2); }
+
+        h3 {
+            font-family: 'Orbitron';
+            color: var(--blue);
+            font-size: 1rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        p {
+            color: #777;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        /* ЦВЕТОВЕ */
+        .color-picker {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .color-dot {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+            position: relative;
+        }
+        .color-dot:hover { transform: scale(1.1) rotate(5deg); border-color: white; }
+        .color-dot.active::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 0 0 5px black;
+        }
+
+        /* БУТОНИ */
+        .btn {
+            background: var(--blue);
+            color: #000;
+            border: none;
+            padding: 14px 25px;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+        .btn:hover { box-shadow: 0 0 20px var(--blue); transform: translateY(-2px); }
+        .btn:active { transform: translateY(0); }
+        .btn:disabled { background: #1a1a1a; color: #444; cursor: not-allowed; box-shadow: none; }
+
+        .btn-pink { background: var(--pink); color: white; }
+        .btn-pink:hover { box-shadow: 0 0 20px var(--pink); }
+
+        /* СТАТИСТИКА */
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-val {
+            font-family: 'Orbitron';
+            color: var(--blue);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            color: rgba(255,255,255,0.1);
+            font-family: 'Orbitron';
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="custom-toast">
+        <i class="fas fa-terminal"></i>
+        <span id="toast-msg">SYSTEM UPDATED</span>
+    </div>
+
+    <div class="settings-header">
+        <a href="index.html" class="back-btn"><i class="fas fa-chevron-left"></i> BACK</a>
+        <div style="letter-spacing: 3px; font-size: 0.9rem;">TERMINAL SETTINGS</div>
+        <div style="width: 50px;"></div>
+    </div>
+
+    <div class="container">
+        
+        <div class="card">
+            <h3>SYSTEM APPEARANCE</h3>
+            <p>Избери основния цвят на твоя HUB интерфейс.</p>
+            <div class="color-picker">
+                <div class="color-dot" id="dot-cyan" style="background: #00f2ff;" onclick="setTheme('#00f2ff', '#ff0055')"></div>
+                <div class="color-dot" id="dot-green" style="background: #53fc18;" onclick="setTheme('#53fc18', '#ffea00')"></div>
+                <div class="color-dot" id="dot-purple" style="background: #D500F9;" onclick="setTheme('#D500F9', '#EE99FC')"></div>
+                <div class="color-dot" id="dot-orange" style="background: #ff3d00;" onclick="setTheme('#ff3d00', '#00e676')"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>SYSTEM AUDIO</h3>
+            <p>Активирай твоята фонова музика.</p>
+            <button class="btn" id="musicBtn" onclick="toggleMusic()">Play Music</button>
+        </div>
+
+        <div class="card">
+            <h3>GLOBAL ECONOMY</h3>
+            <div class="stat-item">
+                <span>Current Credits:</span>
+                <span class="stat-val" id="displayCredits">0</span>
+            </div>
+            <button class="btn btn-pink" id="bonusBtn" onclick="claimBonus()">Claim Daily Bonus +500</button>
+        </div>
+
+        <div class="card">
+            <h3>USER STATISTICS</h3>
+            <div class="stat-item">
+                <span>Total Slot Spins:</span>
+                <span class="stat-val" id="statSpins">0</span>
+            </div>
+            <div class="stat-item" style="border:none;">
+                <span>Total Score:</span>
+                <span class="stat-val" id="statBestScore">0</span>
+            </div>
+            <button class="btn" style="background: rgba(255,0,0,0.1); color: #ff4444; border: 1px solid rgba(255,0,0,0.2); margin-top: 10px;" onclick="resetAllData()">Hard Reset All Data</button>
+        </div>
+
+    </div>
+
+    <footer>YORDANOWZ SYSTEM @2026</footer>
+
+    <script>
+        // --- ЗАРЕЖДАНЕ НА ДАННИ ---
+        function showToast(msg) {
+            const toast = document.getElementById('custom-toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        function refreshUI() {
+            // Извличаме данните отново, за да сме сигурни, че са актуални
+            const creditsVal = parseInt(localStorage.getItem('userCredits')) || 500;
+            const spinsVal = parseInt(localStorage.getItem('statSpins')) || 0;
+            const scoreVal = localStorage.getItem('bb_best_v3') || 0;
+
+            document.getElementById('displayCredits').innerText = creditsVal;
+            document.getElementById('statSpins').innerText = spinsVal;
+            document.getElementById('statBestScore').innerText = scoreVal;
+            
+            // Проверка на темата
+            const b = localStorage.getItem('primaryColor') || '#00f2ff';
+            const p = localStorage.getItem('secondaryColor') || '#ff0055';
+            document.documentElement.style.setProperty('--blue', b);
+            document.documentElement.style.setProperty('--pink', p);
+
+            // Визуална индикация за активен цвят
+            document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('active'));
+            if(b === '#00f2ff') document.getElementById('dot-cyan').classList.add('active');
+            if(b === '#53fc18') document.getElementById('dot-green').classList.add('active');
+            if(b === '#D500F9') document.getElementById('dot-purple').classList.add('active');
+            if(b === '#ff3d00') document.getElementById('dot-orange').classList.add('active');
+
+            // Проверка на бутона за музика
+            const musicStatus = localStorage.getItem('customMusicStatus');
+            const mBtn = document.getElementById('musicBtn');
+            if(musicStatus === 'play') {
+                mBtn.innerText = "Stop Music";
+                mBtn.style.background = "var(--pink)";
+                mBtn.style.color = "white";
+            } else {
+                mBtn.innerText = "Play Music";
+                mBtn.style.background = "var(--blue)";
+                mBtn.style.color = "black";
+            }
+
+            // Проверка за бонус
+            if(sessionStorage.getItem('bonusTaken')) {
+                const bBtn = document.getElementById('bonusBtn');
+                bBtn.disabled = true;
+                bBtn.innerText = "Bonus Claimed";
+            }
+        }
+
+        function setTheme(blue, pink) {
+            localStorage.setItem('primaryColor', blue);
+            localStorage.setItem('secondaryColor', pink);
+            refreshUI();
+            showToast("ТЕМА ПРОМЕНЕНА УСПЕШНО!");
+        }
+
+        function toggleMusic() {
+            const current = localStorage.getItem('customMusicStatus');
+            if(current !== 'play') {
+                localStorage.setItem('customMusicStatus', 'play');
+                showToast("МУЗИКАТА Е ВКЛЮЧЕНА!");
+            } else {
+                localStorage.setItem('customMusicStatus', 'stop');
+                showToast("МУЗИКАТА Е СПРЯНА!");
+            }
+            refreshUI();
+        }
+
+        function claimBonus() {
+            let currentCredits = parseInt(localStorage.getItem('userCredits')) || 500;
+            currentCredits += 500;
+            localStorage.setItem('userCredits', currentCredits);
+            sessionStorage.setItem('bonusTaken', 'true');
+            refreshUI();
+            showToast("ПОЛУЧИХТЕ +500 КРЕДИТА!");
+        }
+
+        function resetAllData() {
+            if(confirm("Сигурен ли си? Всички кредити и рекорди ще бъдат изтрити завинаги!")) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        // Стартираме UI при зареждане
+        refreshUI();
+    </script>
+</body>
+</html>

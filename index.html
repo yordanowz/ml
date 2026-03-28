@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="JsCdbc1q5mlw63yd2u2cn0hs6jnzf2gljhr486u3dkgm2yJfEU" />
+
+    <title>YORDANOWZ | HUB</title>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "yordanowz",
+      "url": "https://yordanowz.com/",
+      "image": "https://yordanowz.com/logo.png",
+      "sameAs": [
+        "https://www.instagram.com/y.yordanowz/",
+        "https://www.tiktok.com/@yordanowz",
+        "https://www.youtube.com/@yordanowz",
+        "https://kick.com/yordanowz",
+        "https://www.twitch.tv/yordanowz",
+        "https://discord.gg/rQr8wPthWV",
+        "https://revolut.me/yordanowzz"
+      ]
+    }
+    </script>
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=1" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=1" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=1" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <meta name="description" content="Yordanowz Social." />
+    <link rel="canonical" href="https://yordanowz.com/">
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="theme-color" content="#0b0d12" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yordanowz.com/" />
+    <meta property="og:title" content="yordanowz" />
+    <meta property="og:description" content="TikTok, YouTube, Instagram, Twitch, Kick, Discord, Revolut + мини игри." />
+    <meta property="og:image" content="https://yordanowz.com/logo.png" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --blue: #00f2ff;
+            --pink: #ff0055;
+            --discord: #5865F2;
+            --bg: #030307;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background: radial-gradient(circle at center, #0a0a20 0%, #030307 100%);
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(0,0,0,0.95);
+            border-bottom: 2px solid var(--blue);
+            font-family: 'Orbitron';
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        #time { font-size: 0.7rem; color: var(--blue); min-width: 65px; }
+        .center-date { font-size: 0.65rem; text-align: center; text-transform: uppercase; flex-grow: 1; letter-spacing: 1px; }
+        
+        /* VOLUME CONTROL */
+        .volume-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+        }
+        .volume-wrap i { font-size: 0.8rem; color: var(--blue); width: 15px; }
+        #volume-slider {
+            width: 60px;
+            height: 4px;
+            cursor: pointer;
+            accent-color: var(--blue);
+            outline: none;
+        }
+
+        #active-users { font-size: 0.65rem; color: #53fc18; white-space: nowrap; min-width: 75px; text-align: right; }
+        .menu-dots { color: var(--blue); font-size: 1.2rem; cursor: pointer; padding-left: 15px; }
+
+        /* SIDE MENU */
+        .side-menu {
+            position: fixed; top: 0; right: -300px; width: 260px; height: 100%;
+            background: rgba(5, 5, 15, 0.98); border-left: 2px solid var(--blue);
+            z-index: 2000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 50px 20px;
+        }
+        .side-menu.active { right: 0; }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; z-index: 1500; backdrop-filter: blur(3px); }
+        .overlay.active { display: block; }
+
+        .menu-link {
+            color: white; text-decoration: none; font-family: 'Orbitron';
+            padding: 15px; margin: 10px 0; display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
+        }
+        .menu-link:hover { color: var(--blue); padding-left: 25px; }
+
+        /* MAIN HUB */
+        .main-hub { max-width: 900px; margin: 20px auto; padding: 15px; width: 100%; flex-grow: 1; }
+        .hub-title { font-family: 'Orbitron'; font-size: 2.5rem; letter-spacing: 5px; text-shadow: 0 0 20px var(--blue); margin-bottom: 30px; text-align: center; }
+
+        .glass-container {
+            position: relative; background: rgba(255,255,255,0.03); border-radius: 20px;
+            padding: 20px; width: 100%; margin-bottom: 25px; border-left: 5px solid var(--blue);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+        .wife-container { border-left-color: var(--pink); }
+
+        .profile-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; position: relative; z-index: 2; }
+        .p-pic { width: 65px; height: 65px; border-radius: 50%; border: 2px solid var(--blue); box-shadow: 0 0 12px var(--blue); object-fit: cover; }
+        .wife-pic { border-color: var(--pink); box-shadow: 0 0 12px var(--pink); }
+
+        /* BIG NEON HEART */
+        .big-neon-heart {
+            position: absolute; right: -20px; top: -10px; font-size: 9rem; color: var(--pink);
+            opacity: 0.15; filter: blur(2px) drop-shadow(0 0 30px var(--pink));
+            transform: rotate(-15deg); animation: heartPulse 2s infinite ease-in-out;
+            pointer-events: none; z-index: 1;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1) rotate(-15deg); opacity: 0.15; }
+            50% { transform: scale(1.1) rotate(-10deg); opacity: 0.3; }
+        }
+
+        .cosmic-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 12px; width: 100%; 
+            position: relative; z-index: 2;
+        }
+        
+        .card { 
+            background: rgba(0,0,0,0.5); padding: 18px 5px; border-radius: 12px; 
+            text-align: center; font-size: 1.5rem; color: white; text-decoration: none; 
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card:hover { transform: translateY(-3px); border-color: var(--blue); box-shadow: 0 0 15px var(--blue); }
+        .wife-container .card:hover { border-color: var(--pink); box-shadow: 0 0 15px var(--pink); }
+
+        .discord-btn {
+            grid-column: 1 / -1; background: var(--discord); color: white; padding: 16px;
+            border-radius: 12px; text-decoration: none; font-family: 'Orbitron';
+            text-align: center; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 5px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .discord-btn:hover { box-shadow: 0 0 20px var(--discord); filter: brightness(1.1); transform: scale(1.02); }
+
+        footer { 
+            text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.2); 
+            font-family: 'Orbitron'; font-size: 0.65rem; letter-spacing: 2px;
+        }
+        .f-name { color: var(--blue); text-shadow: 0 0 10px var(--blue); }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <nav class="side-menu" id="sideMenu">
+        <a href="index.html" class="menu-link"><i class="fas fa-home"></i> HOME</a>
+        <a href="games.html" class="menu-link"><i class="fas fa-gamepad"></i> GAMES</a>
+        <a href="settings.html" class="menu-link"><i class="fas fa-user-gear"></i> SETTINGS</a>
+    </nav>
+
+    <div class="top-bar">
+        <div id="time">00:00:00</div>
+        
+        <div class="center-date" id="full-date">LOADING...</div>
+
+        <div class="volume-wrap">
+            <i class="fas fa-volume-up" id="vol-icon"></i>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.4">
+        </div>
+
+        <div id="active-users">
+            <i class="fas fa-circle" style="font-size: 0.5rem; animation: blink 1s infinite;"></i> ACTIVE: 1
+        </div>
+        <div class="menu-dots" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+    </div>
+
+    <main class="main-hub">
+        <h1 class="hub-title">YORDANOWZ</h1>
+
+        <div class="glass-container">
+            <div class="profile-header">
+                <img src="logo.png" class="p-pic" alt="User">
+                <h2 style="font-family:'Orbitron'; font-size: 1.1rem;">MY STATION</h2>
+            </div>
+            <div class="cosmic-grid">
+                <a href="https://www.instagram.com/y.yordanowz/" class="card"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@yordanowz" class="card"><i class="fab fa-tiktok"></i></a>
+                <a href="https://kick.com/yordanowz" class="card" style="color:#53fc18;"><i class="fab fa-kickstarter-k"></i></a>
+                <a href="https://www.twitch.tv/yordanowz" class="card" style="color:#a970ff;"><i class="fab fa-twitch"></i></a>
+                <a href="https://revolut.me/yordanowzz" class="card"><i class="fas fa-credit-card"></i></a>
+                <a href="https://discord.gg/uMHTs76NYR" target="_blank" class="discord-btn">
+                    <i class="fab fa-discord" style="font-size: 1.2rem;"></i> JOIN DISCORD SERVER
+                </a>
+            </div>
+        </div>
+
+        <div class="glass-container wife-container">
+            <div class="big-neon-heart"><i class="fas fa-heart"></i></div>
+            <div class="profile-header">
+                <img src="wife-photo.jpg" class="p-pic wife-pic" alt="Wife">
+                <h2 style="color: var(--pink); font-family:'Orbitron'; font-size: 1.1rem;">MY WIFE ❤️</h2>
+            </div>
+            <div class="cosmic-grid">
+                <a href="https://www.instagram.com/l.m__777_/" class="card"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@19l.m_777_14" class="card"><i class="fab fa-tiktok"></i></a>
+                <a href="https://revolut.me/lidiaml3sf" class="card"><i class="fas fa-credit-card"></i></a> 
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        MADE BY <span class="f-name">@YORDANOWZ</span> @2026
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('sideMenu').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('time').innerText = now.toLocaleTimeString('bg-BG');
+            const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
+            document.getElementById('full-date').innerText = now.toLocaleDateString('bg-BG', options).toUpperCase();
+            
+            const b = localStorage.getItem('primaryColor');
+            const p = localStorage.getItem('secondaryColor');
+            if(b) document.documentElement.style.setProperty('--blue', b);
+            if(p) document.documentElement.style.setProperty('--pink', p);
+        }
+
+        // --- МУЗИКАЛЕН ПЛЕЙЪР С VOLUME КОНТРОЛ ---
+        (function() {
+            const playlist = ['gg.mp3', 'lm.mp3', 'ff.mp3'];
+            const volSlider = document.getElementById('volume-slider');
+            const volIcon = document.getElementById('vol-icon');
+
+            // Зареждаме запазената сила на звука или 0.4 по подразбиране
+            const savedVol = localStorage.getItem('siteVolume') || 0.4;
+            volSlider.value = savedVol;
+
+            function updateVolIcon(val) {
+                if(val == 0) volIcon.className = "fas fa-volume-mute";
+                else if(val < 0.5) volIcon.className = "fas fa-volume-down";
+                else volIcon.className = "fas fa-volume-up";
+            }
+            updateVolIcon(savedVol);
+
+            function playTrack() {
+                if (!window.myAudio) {
+                    window.myAudio = new Audio();
+                }
+
+                const randomIndex = Math.floor(Math.random() * playlist.length);
+                window.myAudio.src = playlist[randomIndex];
+                window.myAudio.volume = volSlider.value; // Взема стойността от плъзгача
+
+                window.myAudio.play().catch(e => console.log("Waiting for click..."));
+
+                window.myAudio.onended = () => playTrack();
+            }
+
+            // Слушаме за промяна на плъзгача
+            volSlider.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if(window.myAudio) window.myAudio.volume = val;
+                updateVolIcon(val);
+                localStorage.setItem('siteVolume', val); // Запазваме избора
+            });
+
+            function initAudio() {
+                if (!window.myAudio || window.myAudio.paused) {
+                    playTrack();
+                }
+                window.removeEventListener('mousedown', initAudio);
+                window.removeEventListener('touchstart', initAudio);
+            }
+
+            window.addEventListener('mousedown', initAudio);
+            window.addEventListener('touchstart', initAudio);
+        })();
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>SETTINGS | ARCADE HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --blue: #11cee7;
+            --pink: #ff0055;
+            --bg: #05050a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg);
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* HEADER */
+        .settings-header {
+            width: 100%;
+            padding: 25px;
+            background: #000;
+            border-bottom: 2px solid var(--blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron';
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .back-btn:hover { text-shadow: 0 0 10px var(--blue); }
+
+        /* CONTAINER */
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 40px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        h3 {
+            font-family: 'Orbitron';
+            color: var(--blue);
+            font-size: 1rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        p {
+            color: #777;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* ЦВЕТОВЕ */
+        .color-picker {
+            display: flex;
+            gap: 15px;
+        }
+        .color-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+        .color-dot:hover { transform: scale(1.1); }
+        .color-dot.active { border-color: white; box-shadow: 0 0 15px currentColor; }
+
+        /* БУТОНИ */
+        .btn {
+            background: var(--blue);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .btn:hover { box-shadow: 0 0 20px var(--blue); transform: translateY(-2px); }
+        .btn:active { transform: translateY(0); }
+        .btn:disabled { background: #222; color: #555; cursor: not-allowed; box-shadow: none; }
+
+        .btn-pink { background: var(--pink); color: white; }
+        .btn-pink:hover { box-shadow: 0 0 20px var(--pink); }
+
+        /* СТАТИСТИКА */
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-val {
+            font-family: 'Orbitron';
+            color: var(--blue);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            color: #333;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="settings-header">
+        <a href="index.html" class="back-btn"><i class="fas fa-chevron-left"></i> BACK</a>
+        <div style="letter-spacing: 3px;">TERMINAL SETTINGS</div>
+        <div style="width: 50px;"></div>
+    </div>
+
+    <div class="container">
+        
+        <div class="card">
+            <h3>SYSTEM APPEARANCE</h3>
+            <p>Избери основния цвят на твоя HUB интерфейс.</p>
+            <div class="color-picker">
+                <div class="color-dot" style="background: #08e1e9;" onclick="setTheme('#00f2ff', '#ff0055')"></div>
+                <div class="color-dot" style="background: #53fc18;" onclick="setTheme('#53fc18', '#ffea00')"></div>
+                <div class="color-dot" style="background: #D500F9;" onclick="setTheme('#D500F9', '#EE99FC')"></div>
+                <div class="color-dot" style="background: #ff3d00;" onclick="setTheme('#ff3d00', '#00e676')"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>SYSTEM AUDIO</h3>
+            <p>Активирай твоята фонова музика (изисква music.mp3).</p>
+            <button class="btn" id="musicBtn" onclick="toggleMusic()">Play Music</button>
+        </div>
+
+        <div class="card">
+            <h3>GLOBAL ECONOMY</h3>
+            <div class="stat-item">
+                <span>Current Credits:</span>
+                <span class="stat-val" id="displayCredits">0</span>
+            </div>
+            <button class="btn btn-pink" id="bonusBtn" onclick="claimBonus()">Claim Daily Bonus +500</button>
+        </div>
+
+        <div class="card">
+            <h3>USER STATISTICS</h3>
+            <div class="stat-item">
+                <span>Total Slot Spins:</span>
+                <span class="stat-val" id="statSpins">0</span>
+            </div>
+            <div class="stat-item" style="border:none;">
+                <span>Total Lines Cleared:</span>
+                <span class="stat-val" id="statLines">0</span>
+            </div>
+            <button class="btn" style="background: #111; color: #444; margin-top: 10px;" onclick="resetAllData()">Hard Reset All Data</button>
+        </div>
+
+    </div>
+
+    <footer>YORDANOWZ SYSTEM v2.0</footer>
+
+    <script>
+        // --- ЗАРЕЖДАНЕ НА ДАННИ ---
+        let credits = parseInt(localStorage.getItem('userCredits')) || 500;
+        let spins = parseInt(localStorage.getItem('statSpins')) || 0;
+        let lines = parseInt(localStorage.getItem('statLines')) || 0;
+
+        function refreshUI() {
+            document.getElementById('displayCredits').innerText = credits;
+            document.getElementById('statSpins').innerText = spins;
+            document.getElementById('statLines').innerText = lines;
+            
+            // Проверка на темата за самия Settings файл
+            const b = localStorage.getItem('primaryColor');
+            const p = localStorage.getItem('secondaryColor');
+            if(b) document.documentElement.style.setProperty('--blue', b);
+            if(p) document.documentElement.style.setProperty('--pink', p);
+
+            // Проверка на бутона за музика
+            const musicStatus = localStorage.getItem('customMusicStatus');
+            const mBtn = document.getElementById('musicBtn');
+            if(musicStatus === 'play') {
+                mBtn.innerText = "Stop Music";
+                mBtn.style.background = "var(--pink)";
+                mBtn.style.color = "white";
+            } else {
+                mBtn.innerText = "Play Music";
+                mBtn.style.background = "var(--blue)";
+                mBtn.style.color = "black";
+            }
+
+            // Проверка за бонус
+            if(sessionStorage.getItem('bonusTaken')) {
+                document.getElementById('bonusBtn').disabled = true;
+                document.getElementById('bonusBtn').innerText = "Bonus Claimed";
+            }
+        }
+
+        // --- ФУНКЦИИ ---
+
+        function setTheme(blue, pink) {
+            localStorage.setItem('primaryColor', blue);
+            localStorage.setItem('secondaryColor', pink);
+            refreshUI();
+            alert("Темата е променена успешно!");
+        }
+
+        function toggleMusic() {
+            const current = localStorage.getItem('customMusicStatus');
+            if(current !== 'play') {
+                localStorage.setItem('customMusicStatus', 'play');
+                alert("Музиката е включена! Ще тръгне, когато се върнеш в началната страница и цъкнеш някъде.");
+            } else {
+                localStorage.setItem('customMusicStatus', 'stop');
+                // Опитваме се да спрем музиката веднага, ако имаме инстанция
+                if(window.parent.myAudioPlayer) window.parent.myAudioPlayer.pause();
+            }
+            refreshUI();
+        }
+
+        function claimBonus() {
+            credits += 500;
+            localStorage.setItem('userCredits', credits);
+            sessionStorage.setItem('bonusTaken', 'true');
+            refreshUI();
+        }
+
+        function resetAllData() {
+            if(confirm("Сигурен ли си? Всички кредити и рекорди ще бъдат изтрити завинаги!")) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        // Стартираме UI при зареждане
+        refreshUI();
+    </script>
+</body>
+</html>
