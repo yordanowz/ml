@@ -54,6 +54,7 @@
             --pink: #ff0055;
             --discord: #5865F2;
             --bg: #030307;
+            --kick: #53fc18;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -168,6 +169,81 @@
         .card:hover { transform: translateY(-3px); border-color: var(--blue); box-shadow: 0 0 15px var(--blue); }
         .wife-container .card:hover { border-color: var(--pink); box-shadow: 0 0 15px var(--pink); }
 
+        /* --- CYBER BUTTON (ENTER GAMING ZONE) --- */
+        .gaming-link-wrap {
+            grid-column: 1 / -1;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cyber-btn {
+            --primary: var(--blue);
+            --secondary: var(--pink);
+            font-family: 'Orbitron', sans-serif;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: #fff;
+            cursor: pointer;
+            position: relative;
+            padding: 15px 40px;
+            background: transparent;
+            display: inline-block;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            width: 100%;
+            text-align: center;
+            border: none;
+        }
+
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(45deg, transparent 5%, var(--primary) 5%);
+            box-shadow: 4px 0px 0px var(--secondary);
+            clip-path: polygon(92% 0, 100% 25%, 100% 100%, 8% 100%, 0% 75%, 0 0);
+            z-index: -1;
+        }
+
+        .cyber-btn:hover {
+            filter: drop-shadow(0 0 15px var(--blue));
+            transform: scale(1.02);
+        }
+
+        .cyber-btn:hover::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--blue);
+            opacity: 0.1;
+            animation: glitch-anim 0.2s infinite;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(2px, -2px); }
+            50% { transform: translate(-2px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        .cyber-btn__text {
+            font-weight: 700;
+            font-size: 1rem;
+            text-shadow: 2px 2px var(--secondary);
+        }
+
+        .cyber-btn__tag {
+            position: absolute;
+            padding: 2px 5px;
+            bottom: -8px;
+            right: 15%;
+            font-size: 9px;
+            background: var(--secondary);
+            color: #000;
+            font-weight: bold;
+            line-height: 1;
+        }
+
         .discord-btn {
             grid-column: 1 / -1; background: var(--discord); color: white; padding: 16px;
             border-radius: 12px; text-decoration: none; font-family: 'Orbitron';
@@ -227,6 +303,14 @@
                 <a href="https://kick.com/yordanowz" class="card" style="color:#53fc18;"><i class="fab fa-kickstarter-k"></i></a>
                 <a href="https://www.twitch.tv/yordanowz" class="card" style="color:#a970ff;"><i class="fab fa-twitch"></i></a>
                 <a href="https://revolut.me/yordanowzz" class="card"><i class="fas fa-credit-card"></i></a>
+                
+                <div class="gaming-link-wrap">
+                    <a href="https://yordanow.online/" class="cyber-btn">
+                        <span class="cyber-btn__text"><i class="fas fa-bolt"></i> ENTER CALCULATR HUB</span>
+                        <span class="cyber-btn__tag">ONLINE</span>
+                    </a>
+                </div>
+
                 <a href="https://discord.gg/uMHTs76NYR" target="_blank" class="discord-btn">
                     <i class="fab fa-discord" style="font-size: 1.2rem;"></i> JOIN DISCORD SERVER
                 </a>
@@ -275,7 +359,6 @@
             const volSlider = document.getElementById('volume-slider');
             const volIcon = document.getElementById('vol-icon');
 
-            // Зареждаме запазената сила на звука или 0.4 по подразбиране
             const savedVol = localStorage.getItem('siteVolume') || 0.4;
             volSlider.value = savedVol;
 
@@ -293,19 +376,18 @@
 
                 const randomIndex = Math.floor(Math.random() * playlist.length);
                 window.myAudio.src = playlist[randomIndex];
-                window.myAudio.volume = volSlider.value; // Взема стойността от плъзгача
+                window.myAudio.volume = volSlider.value;
 
                 window.myAudio.play().catch(e => console.log("Waiting for click..."));
 
                 window.myAudio.onended = () => playTrack();
             }
 
-            // Слушаме за промяна на плъзгача
             volSlider.addEventListener('input', (e) => {
                 const val = e.target.value;
                 if(window.myAudio) window.myAudio.volume = val;
                 updateVolIcon(val);
-                localStorage.setItem('siteVolume', val); // Запазваме избора
+                localStorage.setItem('siteVolume', val);
             });
 
             function initAudio() {
