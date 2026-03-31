@@ -2,19 +2,20 @@
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>ARCADE HUB | YORDANOWZ</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --blue: #00f2ff; --pink: #ff0055; --kick: #53fc18; --bg: #05050a; }
-        * { margin:0; padding:0; box-sizing:border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             background: radial-gradient(circle at center, #0a0a20 0%, #030307 100%); 
-            color: white; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; 
+            color: white; font-family: 'Rajdhani', sans-serif; 
+            overflow-x: hidden; 
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
-            touch-action: none;
+            /* Премахнато touch-action: none от тук, за да работи скрола */
         }
 
         .top-bar { 
@@ -36,10 +37,12 @@
         .stats-row { display: flex; gap: 15px; margin-bottom: 15px; font-family: 'Orbitron'; }
         .stat-card { background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 10px; border: 1px solid #333; text-align: center; min-width: 110px; }
         
+        /* touch-action: none само върху играта, за да не се мести страницата при драгване */
         .grid-8x8 { 
             display: grid; grid-template-columns: repeat(8, 40px); grid-template-rows: repeat(8, 40px); 
             gap: 4px; background: rgba(0,0,0,0.6); padding: 10px; border-radius: 12px; border: 3px solid #222; 
             box-shadow: 0 0 20px rgba(0,0,0,0.5); position: relative;
+            touch-action: none;
         }
         .cell { width: 40px; height: 40px; background: rgba(255,255,255,0.02); border-radius: 4px; transition: 0.2s; }
         .cell.occupied { border: 1px solid rgba(255,255,255,0.3); }
@@ -80,7 +83,7 @@
         }
         .btn:active { transform: scale(0.95); }
 
-        footer { padding: 30px; color: rgba(255,255,255,0.2); font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 2px; }
+        footer { padding: 40px 30px; color: rgba(255,255,255,0.2); font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 2px; }
 
         @media (max-width: 450px) {
             .grid-8x8 { grid-template-columns: repeat(8, 34px); grid-template-rows: repeat(8, 34px); gap: 2px; }
@@ -170,7 +173,6 @@
             localStorage.setItem('siteVolume', val);
         });
 
-        // Тази функция „отключва“ аудиото и на PC, и на мобилни устройства
         window.initAudio = function() {
             if (!window.myAudio || window.myAudio.paused) {
                 playTrack();
@@ -245,7 +247,7 @@
         });
 
         const startDrag = (e) => {
-            if(window.initAudio) window.initAudio(); // Подсигуряваме старта
+            if(window.initAudio) window.initAudio();
             activePiece = el;
             const pos = (e.type === 'touchstart') ? e.touches[0] : e;
             const rect = el.getBoundingClientRect();
